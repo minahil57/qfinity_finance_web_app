@@ -1,0 +1,38 @@
+name: Deploy Flutter Web to IIS
+
+on:
+  push:
+    branches:
+      - deploy
+
+jobs:
+
+  build-and-deploy:
+    runs-on: qfinity-flutter-web
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Clean Build Folder
+        shell: powershell
+        run: flutter clean
+
+      - name: Get Packages Dependencies
+        shell: powershell
+        run: flutter pub get
+
+      - name: Build Web
+        shell: powershell
+        run: flutter build web
+
+      - name: Deploy to IIS
+        shell: powershell
+        run: |
+          iisreset /stop
+          xcopy /s /y  .\build\web\* F:\IIS\QfinityNew
+          iisreset /start

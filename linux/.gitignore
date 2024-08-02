@@ -1,0 +1,5 @@
+flutter/ephemeral
+
+**/Flutter/generated_plugin_registrant.cc
+**/Flutter/generated_plugin_registrant.h
+**/Flutter/generated_plugins.cmake
